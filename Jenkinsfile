@@ -10,8 +10,8 @@ pipeline {
         }
         stage('Build') {
             steps {
-                build 'PES1UG21CS563-1'    /
-                sh 'g++ PES1UG21CS563.cpp -o output'
+                build 'PES1UG21CS563-1'    
+                sh 'g++ PES1UG21CS56.cpp -o output'
             }
         }
         stage('Test') {
