@@ -1,38 +1,33 @@
 pipeline {
     agent any
-    
     stages {
+        stage('Clone repository') {
+            steps {
+                checkout([$class: 'GitSCM',
+                          branches: [[name: '**/main']],
+                          userRemoteConfigs: [[url: 'https://github.com/shravanihm/PES1UG21CS563_Jenkins.git']]])
+            }
+        }
         stage('Build') {
             steps {
-                script {
-                    // Compile the .cpp file using shell script
-                    sh 'g++ -o executable main/PES1UG21CS563.cpp'
-                }
-                echo 'Build Stage Successful'
+                build 'PES1UG21CS563-1'
+                sh 'g++ PES1UG21CS563.cpp -o output'
             }
         }
-        
         stage('Test') {
             steps {
-                script {
-                    // Print output of .cpp file using shell script
-                    sh './executable'
-                }
-                echo 'Test Stage Successful'
+                sh './output'
             }
         }
-        
         stage('Deploy') {
             steps {
-                // Deployment steps if any
-                echo 'Deployment Successful'
+                echo 'deploy'
             }
         }
     }
-    
     post {
         failure {
-            echo 'Pipeline failed'
+            error 'Pipeline failed'
         }
     }
 }
